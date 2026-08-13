@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UrlShorty</title>
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>UrlShorty</h1>
+    <p class="subtitle">Shorten links quickly and share them easily.</p>
+
+    <form action="/shorten" method="POST" class="url-form">
+      <input
+        type="url"
+        name="fullUrl"
+        placeholder="Paste your long URL here"
+        required
+      />
+      <button type="submit">Shorten</button>
+    </form>
+
+    <% if (typeof shortUrl !== 'undefined' && shortUrl) { %>
+      <div class="result">
+        <span>Your short URL</span>
+        <a href="<%= shortUrl %>" target="_blank"><%= shortUrl %></a>
+      </div>
+    <% } %>
+
+    <div class="list-section">
+      <h2>All URLs</h2>
+
+      <% if (urls && urls.length > 0) { %>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Original URL</th>
+                <th>Short URL</th>
+                <th>Clicks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% urls.forEach(url => { %>
+                <tr>
+                  <td class="url-cell">
+                    <a href="<%= url.full %>" target="_blank"><%= url.full %></a>
+                  </td>
+                  <td>
+                    <a href="/<%= url.short %>" target="_blank">/<%= url.short %></a>
+                  </td>
+                  <td><%= url.clicks || 0 %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <p class="empty">No URLs shortened yet.</p>
+      <% } %>
+    </div>
+  </div>
+
+</body>
+</html>
